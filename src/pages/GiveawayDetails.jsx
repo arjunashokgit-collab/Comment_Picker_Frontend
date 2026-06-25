@@ -342,7 +342,6 @@ const GiveawayDetails = () => {
     if (preset && !hasPresetBeenDrawn) {
       // Find preset in comments or build structure
       targetWinner = filteredComments.find((c) => c.username === preset.username) || {
-        id: 'comment_preset_winner',
         username: preset.username,
         text: preset.text,
       };
