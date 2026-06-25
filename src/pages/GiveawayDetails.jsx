@@ -596,7 +596,7 @@ const GiveawayDetails = () => {
                     </div>
                   </section>
 
-                  <section className="rounded-2xl border border-violet-900/30 bg-[#0e0e24] p-6 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center min-h-64">
+                  <section className="rounded-2xl border border-violet-900/30 bg-[#0e0e24] p-6 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center min-h-[300px]">
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-violet-600/5 via-transparent to-transparent pointer-events-none" />
                     
                     {isDrawing ? (
@@ -606,8 +606,8 @@ const GiveawayDetails = () => {
                           <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Drawing Winner...</span>
                         </div>
                         {/* Name display box */}
-                        <div className="rounded-2xl border-2 border-violet-500 bg-[#070714] py-8 px-6 shadow-lg shadow-violet-500/10 flex items-center justify-center font-mono">
-                          <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-indigo-300 animate-pulse">
+                        <div className="w-full h-24 rounded-2xl border-2 border-violet-500 bg-[#070714] shadow-lg shadow-violet-500/10 flex items-center justify-center font-mono overflow-hidden">
+                          <span className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-indigo-300 animate-pulse block truncate w-full min-w-0 px-4 text-center">
                             @{spinnerName}
                           </span>
                         </div>
@@ -644,11 +644,11 @@ const GiveawayDetails = () => {
                         </div>
 
                         {/* Winner Username Box */}
-                        <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 py-5 px-4">
-                          <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-400">
+                        <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 py-5 px-4 overflow-hidden">
+                          <span className="block text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-400 truncate w-full min-w-0 px-2 text-center">
                             @{winner.username}
                           </span>
-                          <p className="mt-3 text-xs italic text-slate-300 px-4 max-w-sm mx-auto">
+                          <p className="mt-3 text-xs italic text-slate-300 px-4 max-w-sm mx-auto break-words">
                             "{winner.text}"
                           </p>
                         </div>
