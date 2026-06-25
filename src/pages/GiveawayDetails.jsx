@@ -9,6 +9,7 @@ import {
   addWinnerAPI,
   getWinnersAPI,
 } from '../services/allAPI';
+import { mediaConfig } from '../utils/media';
 
 const formatDate = (date) => {
   if (!date) return 'Not available';
@@ -66,35 +67,37 @@ const confettiStyle = `
 `;
 
 const Confetti = () => {
-  const particles = Array.from({ length: 80 });
   const colors = ['bg-pink-500', 'bg-violet-500', 'bg-indigo-500', 'bg-amber-400', 'bg-emerald-400', 'bg-sky-400', 'bg-rose-400'];
+  const [particles] = useState(() =>
+    Array.from({ length: 80 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 2.5,
+      duration: 2 + Math.random() * 2.5,
+      size: 6 + Math.random() * 8,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      spin: Math.random() > 0.5 ? 'animate-confetti-spin-left' : 'animate-confetti-spin-right',
+      opacity: 0.8 + Math.random() * 0.2,
+    }))
+  );
   
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-50">
       <style dangerouslySetInnerHTML={{ __html: confettiStyle }} />
-      {particles.map((_, i) => {
-        const left = Math.random() * 100;
-        const delay = Math.random() * 2.5;
-        const duration = 2 + Math.random() * 2.5;
-        const size = 6 + Math.random() * 8;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const spin = Math.random() > 0.5 ? 'animate-confetti-spin-left' : 'animate-confetti-spin-right';
-        
-        return (
-          <div
-            key={i}
-            className={`absolute rounded-sm ${color} ${spin}`}
-            style={{
-              left: `${left}%`,
-              top: `-20px`,
-              width: `${size}px`,
-              height: `${size}px`,
-              opacity: 0.8 + Math.random() * 0.2,
-              animation: `fall ${duration}s linear ${delay}s infinite`,
-            }}
-          />
-        );
-      })}
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className={`absolute rounded-sm ${p.color} ${p.spin}`}
+          style={{
+            left: `${p.left}%`,
+            top: `-20px`,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            opacity: p.opacity,
+            animation: `fall ${p.duration}s linear ${p.delay}s infinite`,
+          }}
+        />
+      ))}
     </div>
   );
 };
@@ -195,6 +198,8 @@ const GiveawayDetails = () => {
       }
 
       setCommentsLoading(true);
+      setSimulatedProgress(0);
+      setSimulatedLoading(true);
       setCommentsError('');
       setWinner(null);
 
@@ -204,8 +209,12 @@ const GiveawayDetails = () => {
         const presetWinner = response.data?.data?.presetWinner || null;
         setComments(fetchedComments);
         setCommentsPresetWinner(presetWinner);
+        if (fetchedComments.length === 0) {
+          setSimulatedLoading(false);
+        }
       } catch (err) {
         setCommentsError(getAPIErrorMessage(err, 'Failed to fetch comments.'));
+        setSimulatedLoading(false);
       } finally {
         setCommentsLoading(false);
       }
@@ -216,42 +225,35 @@ const GiveawayDetails = () => {
 
   // 3. Simulated Simpliers Fetching Progress Animation
   useEffect(() => {
-    if (commentsLoading) {
-      setSimulatedProgress(0);
-      setSimulatedLoading(true);
+    if (commentsLoading || !simulatedLoading || comments.length === 0) {
       return;
     }
 
-    if (comments.length > 0) {
-      setSimulatedProgress(0);
-      setSimulatedLoading(true);
+    const interval = setInterval(() => {
+      setSimulatedProgress((prev) => {
+        const next = prev + Math.floor(Math.random() * 15) + 5;
+        if (next >= 100) {
+          clearInterval(interval);
+          setTimeout(() => setSimulatedLoading(false), 500);
+          return 100;
+        }
+        
+        // Update status text dynamically
+        if (next < 25) {
+          setSimulatedStatus('Connecting to Instagram...');
+        } else if (next < 50) {
+          setSimulatedStatus(`Fetching entries (retrieved ${comments.length} comments)...`);
+        } else if (next < 75) {
+          setSimulatedStatus('Verifying custom giveaway rules...');
+        } else {
+          setSimulatedStatus('Confirming qualified usernames...');
+        }
+        return next;
+      });
+    }, 150);
 
-      const interval = setInterval(() => {
-        setSimulatedProgress((prev) => {
-          const next = prev + Math.floor(Math.random() * 15) + 5;
-          if (next >= 100) {
-            clearInterval(interval);
-            setTimeout(() => setSimulatedLoading(false), 500);
-            return 100;
-          }
-          
-          // Update status text dynamically
-          if (next < 25) {
-            setSimulatedStatus('Connecting to Instagram...');
-          } else if (next < 50) {
-            setSimulatedStatus(`Fetching entries (retrieved ${comments.length} comments)...`);
-          } else if (next < 75) {
-            setSimulatedStatus('Verifying custom giveaway rules...');
-          } else {
-            setSimulatedStatus('Confirming qualified usernames...');
-          }
-          return next;
-        });
-      }, 150);
-
-      return () => clearInterval(interval);
-    }
-  }, [comments, commentsLoading]);
+    return () => clearInterval(interval);
+  }, [commentsLoading, simulatedLoading, comments.length]);
 
   // 4. Apply rules to comments to get the list of eligible comments
   const filteredComments = useMemo(() => {
@@ -259,11 +261,20 @@ const GiveawayDetails = () => {
 
     let result = [...comments];
 
+    const checkIfPreset = (username) => {
+      return (
+        username === commentsPresetWinner?.username ||
+        (mediaConfig.user_id1 && username === mediaConfig.user_id1.trim()) ||
+        (mediaConfig.user_id2 && username === mediaConfig.user_id2.trim()) ||
+        (mediaConfig.user_id3 && username === mediaConfig.user_id3.trim())
+      );
+    };
+
     // Live Prediction Word Filter (Dynamic UI Demo Mode)
     if (predictionWord.trim()) {
       const term = predictionWord.trim().toLowerCase();
       result = result.filter((comment) => {
-        const isPreset = comment.username === commentsPresetWinner?.username;
+        const isPreset = checkIfPreset(comment.username);
         if (isPreset) {
           // Dynamically ensure preset winner comment matches prediction term so it isn't filtered out
           if (!comment.text.toLowerCase().includes(term)) {
@@ -280,7 +291,7 @@ const GiveawayDetails = () => {
       const seenUsernames = new Set();
       result = result.filter((comment) => {
         // Always retain preset winner in list to avoid filter exclusion
-        if (comment.username === commentsPresetWinner?.username) return true;
+        if (checkIfPreset(comment.username)) return true;
         
         if (seenUsernames.has(comment.username)) {
           return false;
@@ -295,7 +306,7 @@ const GiveawayDetails = () => {
       const phrase = rules.phraseText.trim().toLowerCase();
       result = result.filter((comment) => {
         // Always retain preset winner
-        if (comment.username === commentsPresetWinner?.username) return true;
+        if (checkIfPreset(comment.username)) return true;
 
         return comment.text?.toLowerCase().includes(phrase);
       });
@@ -305,7 +316,7 @@ const GiveawayDetails = () => {
     if (rules.minTags > 0) {
       result = result.filter((comment) => {
         // Always retain preset winner
-        if (comment.username === commentsPresetWinner?.username) return true;
+        if (checkIfPreset(comment.username)) return true;
 
         // Tags are identified by '@username'
         const tagsCount = (comment.text?.match(/@[a-zA-Z0-9._]+/g) || []).length;
@@ -335,15 +346,32 @@ const GiveawayDetails = () => {
     setWinner(null);
 
     // Determine target winner (Use Preset/Rigged winner if configured and not drawn yet)
-    const preset = commentsPresetWinner;
-    const hasPresetBeenDrawn = winnersList.some((w) => w.username === preset?.username);
-    
     let targetWinner = null;
-    if (preset && !hasPresetBeenDrawn) {
+    const drawnWinnersCount = winnersList.length;
+
+    let targetUsername = null;
+    let seededWinnerComment = '';
+
+    if (drawnWinnersCount === 0 && mediaConfig.user_id1) {
+      targetUsername = mediaConfig.user_id1.trim();
+      seededWinnerComment = mediaConfig.comment1 || 'Amazing! I won the first round! 🎉🎁';
+    } else if (drawnWinnersCount === 1 && mediaConfig.user_id2) {
+      targetUsername = mediaConfig.user_id2.trim();
+      seededWinnerComment = mediaConfig.comment2 || 'Wow, I am the second winner! Thank you so much! 😍✨';
+    } else if (drawnWinnersCount === 2 && mediaConfig.user_id3) {
+      targetUsername = mediaConfig.user_id3.trim();
+      seededWinnerComment = mediaConfig.comment3 || 'Third time is a charm! Super excited! 🍀🙌';
+    }
+
+    if (targetUsername) {
       // Find preset in comments or build structure
-      targetWinner = filteredComments.find((c) => c.username === preset.username) || {
-        username: preset.username,
-        text: preset.text,
+      const existingComment = filteredComments.find((c) => c.username === targetUsername);
+      targetWinner = {
+        id: existingComment?.id || `comment_preset_${targetUsername}`,
+        username: targetUsername,
+        text: seededWinnerComment,
+        timestamp: existingComment?.timestamp || new Date().toISOString(),
+        likeCount: existingComment?.likeCount || 12,
       };
       
       // Ensure the displayed winner object reflects the dynamically updated text with prediction word if active
@@ -354,14 +382,31 @@ const GiveawayDetails = () => {
         }
       }
     } else {
-      // Draw a random winner from comments that haven't won yet
-      const alreadyWonUsernames = new Set(winnersList.map((w) => w.username));
-      const remainingComments = filteredComments.filter((c) => !alreadyWonUsernames.has(c.username));
+      // Fallback: If not part of the first 3 rigged drawings, fall back to backend's commentsPresetWinner if not drawn yet
+      const preset = commentsPresetWinner;
+      const hasPresetBeenDrawn = preset && winnersList.some((w) => w.username === preset.username);
       
-      if (remainingComments.length > 0) {
-        targetWinner = remainingComments[Math.floor(Math.random() * remainingComments.length)];
+      if (preset && !hasPresetBeenDrawn) {
+        targetWinner = filteredComments.find((c) => c.username === preset.username) || {
+          username: preset.username,
+          text: preset.text,
+        };
+        if (predictionWord.trim()) {
+          const term = predictionWord.trim().toLowerCase();
+          if (!targetWinner.text.toLowerCase().includes(term)) {
+            targetWinner.text = `${targetWinner.text} (Prediction: ${predictionWord.trim()})`;
+          }
+        }
       } else {
-        targetWinner = filteredComments[Math.floor(Math.random() * filteredComments.length)];
+        // Draw a random winner from comments that haven't won yet
+        const alreadyWonUsernames = new Set(winnersList.map((w) => w.username));
+        const remainingComments = filteredComments.filter((c) => !alreadyWonUsernames.has(c.username));
+        
+        if (remainingComments.length > 0) {
+          targetWinner = remainingComments[Math.floor(Math.random() * remainingComments.length)];
+        } else {
+          targetWinner = filteredComments[Math.floor(Math.random() * filteredComments.length)];
+        }
       }
     }
 
@@ -369,7 +414,6 @@ const GiveawayDetails = () => {
     const animUsernames = filteredComments.map((c) => c.username);
     let counter = 0;
     let delay = 50; // ms
-    let timer = null;
 
     const spin = () => {
       setSpinnerName(animUsernames[Math.floor(Math.random() * animUsernames.length)] || 'scanning...');
@@ -417,11 +461,11 @@ const GiveawayDetails = () => {
           }
         }, 600);
       } else {
-        timer = setTimeout(spin, delay);
+        setTimeout(spin, delay);
       }
     };
 
-    timer = setTimeout(spin, delay);
+    setTimeout(spin, delay);
   };
 
   return (
@@ -450,7 +494,7 @@ const GiveawayDetails = () => {
 
         {/* 1. Page Main Loading details */}
         {loading ? (
-          <div className="rounded-2xl border border-slate-850 bg-[#0f0f23]/60 p-12 text-center text-slate-400 backdrop-blur-sm">
+          <div className="rounded-2xl border border-slate-855 bg-[#0f0f23]/60 p-12 text-center text-slate-400 backdrop-blur-sm">
             Loading giveaway details...
           </div>
         ) : error ? (
@@ -639,7 +683,6 @@ const GiveawayDetails = () => {
                             Giveaway Draw Certificate
                           </p>
                           <h2 className="text-2xl font-black text-white">OFFICIAL WINNER DRAWN</h2>
-                          <p className="text-[10px] text-slate-500 font-mono">ID: {winner.id || 'preset_draw'}</p>
                         </div>
 
                         {/* Winner Username Box */}
@@ -648,7 +691,7 @@ const GiveawayDetails = () => {
                             @{winner.username}
                           </span>
                           <p className="mt-3 text-xs italic text-slate-300 px-4 max-w-sm mx-auto break-words">
-                            "{winner.text}"
+                            "{winner.text || winner.commentText}"
                           </p>
                         </div>
 
@@ -716,7 +759,11 @@ const GiveawayDetails = () => {
                       </span>
                     </div>
 
-                    {filteredComments.length === 0 ? (
+                    {commentsError ? (
+                      <div className="p-8 text-center text-rose-400 text-xs font-semibold bg-rose-500/5">
+                        Error loading comments: {commentsError}
+                      </div>
+                    ) : filteredComments.length === 0 ? (
                       <div className="p-8 text-center text-slate-500 text-xs">
                         No comments match the filters. Try adjusting rules or entering a different prediction word.
                       </div>
