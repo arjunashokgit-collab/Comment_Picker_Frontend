@@ -180,8 +180,8 @@ const Dashboard = () => {
             mediaType: 'VIDEO',
             mediaUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&auto=format&fit=crop&q=80',
             thumbnailUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&auto=format&fit=crop&q=80',
-            commentsCount: 120,
-            likeCount: 1540
+            commentsCount: 22028,
+            likeCount: 15400
           },
           selectedPostId: mediaId,
           rules: {

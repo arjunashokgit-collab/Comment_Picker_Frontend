@@ -3,7 +3,7 @@
 
 export const mediaConfig = {
   // The custom image to display in the frontend when creating/configuring a giveaway
-  image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+  image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=8',
 
   // The sequential usernames to be drawn as winners
   user_id1: 'lucky_user_one',

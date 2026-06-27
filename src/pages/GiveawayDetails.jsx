@@ -530,7 +530,7 @@ const GiveawayDetails = () => {
                 <div className="rounded-xl border border-slate-800 bg-[#12122b]/80 p-3.5 flex gap-4 items-center shadow-md">
                   <div className="h-16 w-16 bg-slate-900 rounded-lg overflow-hidden relative shrink-0 border border-slate-700">
                     <img
-                      src={selectedPost?.thumbnailUrl || selectedPost?.mediaUrl || 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=850&auto=format&fit=crop&q=80'}
+                      src={mediaConfig?.image || selectedPost?.thumbnailUrl || selectedPost?.mediaUrl || 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=850&auto=format&fit=crop&q=80'}
                       alt="Instagram media preview"
                       className="h-full w-full object-cover"
                     />
@@ -696,7 +696,7 @@ const GiveawayDetails = () => {
                         </div>
 
                         <div className="flex items-center justify-between text-[10px] text-slate-500 border-t border-slate-800/80 pt-4 px-2 font-mono">
-                          <span>VERIFIED BY SIMPLIERS DRAW</span>
+                          <span>VERIFIED BY CommentPicker DRAW</span>
                           <span>{new Date().toLocaleDateString('en-IN')}</span>
                         </div>
 
