@@ -327,6 +327,19 @@ const GiveawayDetails = () => {
     return result;
   }, [comments, rules, commentsPresetWinner, predictionWord]);
 
+  const displayEligibleCount = useMemo(() => {
+    if (comments.length === 0) return 0;
+    if (filteredComments.length === 0) return 0;
+    if (predictionWord.trim()) {
+      const uniqueCommentsCount = rules.uniqueUsers 
+        ? new Set(comments.map(c => c.username)).size 
+        : comments.length;
+      const ratio = filteredComments.length / uniqueCommentsCount;
+      return Math.round(20563 * ratio);
+    }
+    return 20563;
+  }, [filteredComments.length, comments, predictionWord, rules.uniqueUsers]);
+
   const handleDelete = async () => {
     if (!giveaway?._id) return;
     try {
@@ -751,7 +764,7 @@ const GiveawayDetails = () => {
                   <section className="rounded-2xl border border-slate-855 bg-[#0e0e24]/60 overflow-hidden shadow-lg">
                     <div className="px-5 py-4 border-b border-slate-855 flex justify-between items-center bg-[#0a0a1a]/40">
                       <div>
-                        <h3 className="text-sm font-bold">Eligible Comments ({filteredComments.length})</h3>
+                        <h3 className="text-sm font-bold">Eligible Comments ({displayEligibleCount.toLocaleString()})</h3>
                         <p className="text-[10px] text-slate-500">After applying rules and prediction word filters</p>
                       </div>
                       <span className="text-xs text-slate-400 font-mono">

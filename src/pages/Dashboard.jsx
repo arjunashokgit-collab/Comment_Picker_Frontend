@@ -49,7 +49,7 @@ const Dashboard = () => {
   const [search, setSearch] = useState('');
 
   // Simpliers Giveaway Rules Form State
-  const [contestName, setContestName] = useState('My Instagram Giveaway');
+  const [contestName, setContestName] = useState('48 HOURS ONLY❤️🏆');
   const [postUrl, setPostUrl] = useState('');
   const [entryType, setEntryType] = useState('comments'); // 'comments' or 'likes'
   const [winnersCount, setWinnersCount] = useState(1);

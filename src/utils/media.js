@@ -7,12 +7,12 @@ export const mediaConfig = {
   image: giveawayimage,
 
   // The sequential usernames to be drawn as winners
-  user_id1: 'lucky_user_one',
+  user_id1: 'juju_george',
   user_id2: 'arjun_ashok',
   user_id3: 'blessed_user_three',
 
   // The custom comments for each seeded winner
-  comment1: 'Amazing! I won the first round! 🎉🎁',
+  comment1: 'i am ashokettan fan',
   comment2: 'ronaldo',
   comment3: 'Messi',
 };
