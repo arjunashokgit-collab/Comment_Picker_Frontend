@@ -12,7 +12,7 @@ export const mediaConfig = {
   user_id3: 'tomjacobbs',
 
   // The custom comments for each seeded winner
-  comment1: 'Portugal 🇵🇹🇵🇹',
+  comment1: 'Messi 🇦🇷',
   comment2: 'Ronaldo 🇵🇹',
   comment3: 'Messi 🇦🇷',
 };
