@@ -335,9 +335,9 @@ const GiveawayDetails = () => {
         ? new Set(comments.map(c => c.username)).size 
         : comments.length;
       const ratio = filteredComments.length / uniqueCommentsCount;
-      return Math.round(30257 * ratio);
+      return Math.round(26711 * ratio);
     }
-    return 30257;
+    return 26711;
   }, [filteredComments.length, comments, predictionWord, rules.uniqueUsers]);
 
   const handleDelete = async () => {
