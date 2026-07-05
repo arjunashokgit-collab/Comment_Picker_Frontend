@@ -49,7 +49,7 @@ const Dashboard = () => {
   const [search, setSearch] = useState('');
 
   // Simpliers Giveaway Rules Form State
-  const [contestName, setContestName] = useState('Portugal Jaikuvoo 🤭??');
+  const [contestName, setContestName] = useState('Brazil vs Norway aruu jaikum???');
   const [postUrl, setPostUrl] = useState('');
   const [entryType, setEntryType] = useState('comments'); // 'comments' or 'likes'
   const [winnersCount, setWinnersCount] = useState(1);
@@ -181,7 +181,7 @@ const Dashboard = () => {
             mediaUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&auto=format&fit=crop&q=80',
             thumbnailUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&auto=format&fit=crop&q=80',
             commentsCount: 22028,
-            likeCount: 16382
+            likeCount: 18927
           },
           selectedPostId: mediaId,
           rules: {
