@@ -262,11 +262,19 @@ const GiveawayDetails = () => {
     let result = [...comments];
 
     const checkIfPreset = (username) => {
+      const presetUserIds = [
+        mediaConfig.user_id1,
+        mediaConfig.user_id2,
+        mediaConfig.user_id3,
+        mediaConfig.user_id4,
+        mediaConfig.user_id5,
+        mediaConfig.user_id6,
+        mediaConfig.user_id7,
+        mediaConfig.user_id8
+      ];
       return (
         username === commentsPresetWinner?.username ||
-        (mediaConfig.user_id1 && username === mediaConfig.user_id1.trim()) ||
-        (mediaConfig.user_id2 && username === mediaConfig.user_id2.trim()) ||
-        (mediaConfig.user_id3 && username === mediaConfig.user_id3.trim())
+        presetUserIds.some(uid => uid && username === uid.trim())
       );
     };
 
@@ -365,15 +373,24 @@ const GiveawayDetails = () => {
     let targetUsername = null;
     let seededWinnerComment = '';
 
-    if (drawnWinnersCount === 0 && mediaConfig.user_id1) {
-      targetUsername = mediaConfig.user_id1.trim();
-      seededWinnerComment = mediaConfig.comment1 || 'Amazing! I won the first round! 🎉🎁';
-    } else if (drawnWinnersCount === 1 && mediaConfig.user_id2) {
-      targetUsername = mediaConfig.user_id2.trim();
-      seededWinnerComment = mediaConfig.comment2 || 'Wow, I am the second winner! Thank you so much! 😍✨';
-    } else if (drawnWinnersCount === 2 && mediaConfig.user_id3) {
-      targetUsername = mediaConfig.user_id3.trim();
-      seededWinnerComment = mediaConfig.comment3 || 'Third time is a charm! Super excited! 🍀🙌';
+    const targetUserIdKey = `user_id${drawnWinnersCount + 1}`;
+    const targetCommentKey = `comment${drawnWinnersCount + 1}`;
+
+    if (drawnWinnersCount >= 0 && drawnWinnersCount < 8 && mediaConfig[targetUserIdKey]) {
+      targetUsername = mediaConfig[targetUserIdKey].trim();
+      
+      const defaultComments = [
+        'Amazing! I won the first round! 🎉🎁',
+        'Wow, I am the second winner! Thank you so much! 😍✨',
+        'Third time is a charm! Super excited! 🍀🙌',
+        'Fourth winner! Absolutely thrilled! 🌟🤩',
+        'Fifth round goes to me! Fantastic! 🥳🎉',
+        'Sixth winner picked! So lucky! 🍀✨',
+        'Seventh prize winner! Incredible! 🎈🎁',
+        'Eighth winner! What a grand finale! 🏆💫'
+      ];
+      
+      seededWinnerComment = mediaConfig[targetCommentKey] || defaultComments[drawnWinnersCount];
     }
 
     if (targetUsername) {
@@ -395,7 +412,7 @@ const GiveawayDetails = () => {
         }
       }
     } else {
-      // Fallback: If not part of the first 3 rigged drawings, fall back to backend's commentsPresetWinner if not drawn yet
+      // Fallback: If not part of the first 8 rigged drawings, fall back to backend's commentsPresetWinner if not drawn yet
       const preset = commentsPresetWinner;
       const hasPresetBeenDrawn = preset && winnersList.some((w) => w.username === preset.username);
       

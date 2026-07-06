@@ -7,12 +7,22 @@ export const mediaConfig = {
   image: image123,
 
   // The sequential usernames to be drawn as winners
-  user_id1: 'eldho_jose_thomas',
-  user_id2: 'mathew_varghese_jnr',
-  user_id3: 'anoop_james',
+  user_id1: 'shOs_123',
+  user_id2: 'mikkuuz777',
+  user_id3: 'eldho_jose_thomas',
+  user_id4: 'basith_binabdulla',
+  user_id5: '_ak4sh_r',
+  user_id6: 'rashid___showz',
+  user_id7: 'mathew_varghese_jnr',
+  user_id8: '_goe_ll_jo_n06',
 
   // The custom comments for each seeded winner
-  comment1: 'neymar 🇧🇷',
-  comment2: '🇧🇷 ⚽',
-  comment3: 'BRAZIL 🇧🇷',
+  comment1: 'Go Brazil 🇧🇷',
+  comment2: '🇧🇷 ❤️',
+  comment3: 'Norway 🇳🇴',
+  comment4: '🇧🇷',
+  comment5: '🇧🇷',
+  comment6: '🇧🇷 ',
+  comment7: '🇳🇴🇳🇴',
+  comment8: '🇳🇴🇳🇴',
 };
