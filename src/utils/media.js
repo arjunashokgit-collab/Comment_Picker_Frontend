@@ -7,9 +7,9 @@ export const mediaConfig = {
   image: image123,
 
   // The sequential usernames to be drawn as winners
-  user_id1: 'shOs_123',
-  user_id2: 'mikkuuz777',
-  user_id3: 'eldho_jose_thomas',
+  user_id1: 'acid_shots12',
+  user_id2: 'itsmeadharshpradeep',
+  user_id3: 'andrea_philip__',
   user_id4: 'basith_binabdulla',
   user_id5: '_ak4sh_r',
   user_id6: 'rashid___showz',
@@ -17,9 +17,9 @@ export const mediaConfig = {
   user_id8: '_goe_ll_jo_n06',
 
   // The custom comments for each seeded winner
-  comment1: 'Go Brazil 🇧🇷',
-  comment2: '🇧🇷 ❤️',
-  comment3: 'Norway 🇳🇴',
+  comment1: 'portugal',
+  comment2: 'CR7',
+  comment3: 'Spain',
   comment4: '🇧🇷',
   comment5: '🇧🇷',
   comment6: '🇧🇷 ',
