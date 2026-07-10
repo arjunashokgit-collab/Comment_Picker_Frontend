@@ -1,13 +1,13 @@
 // This file allows configuring a custom media image and seeded winner sequence.
 // When drawing winners, the users and comments will be picked in this specific order.
-import image123 from "./image6.png"
+import image123 from "./image7.png"
 
 export const mediaConfig = {
   // The custom image to display in the frontend when creating/configuring a giveaway
   image: image123,
 
   // The sequential usernames to be drawn as winners
-  user_id1: 'jithujamesreal',
+  user_id1: 'boban_jojo_',
   user_id2: 'evlin_mathew_68',
   user_id3: 'andrea_philip__',
   user_id4: 'basith_binabdulla',
@@ -17,7 +17,7 @@ export const mediaConfig = {
   user_id8: '_goe_ll_jo_n06',
 
   // The custom comments for each seeded winner
-  comment1: 'Messi 🇦🇷',
+  comment1: 'France 🇫🇷🇫🇷',
   comment2: 'Vamos',
   comment3: 'Spain',
   comment4: '🇧🇷',
