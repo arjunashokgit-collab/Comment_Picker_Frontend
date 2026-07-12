@@ -1,6 +1,6 @@
 // This file allows configuring a custom media image and seeded winner sequence.
 // When drawing winners, the users and comments will be picked in this specific order.
-import image123 from "./image7.png"
+import image123 from "./image8.png"
 
 export const mediaConfig = {
   // The custom image to display in the frontend when creating/configuring a giveaway
