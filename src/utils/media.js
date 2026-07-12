@@ -7,22 +7,22 @@ export const mediaConfig = {
   image: image123,
 
   // The sequential usernames to be drawn as winners
-  user_id1: 'boban_jojo_',
-  user_id2: 'evlin_mathew_68',
-  user_id3: 'andrea_philip__',
-  user_id4: 'basith_binabdulla',
+  user_id1: 'raju_anandhhv',
+  user_id2: 'irin_thomas124',
+  user_id3: 'amal_shajan__',
+  user_id4: 'vichuzzsssee',
   user_id5: '_ak4sh_r',
   user_id6: 'rashid___showz',
   user_id7: 'mathew_varghese_jnr',
   user_id8: '_goe_ll_jo_n06',
 
   // The custom comments for each seeded winner
-  comment1: 'France 🇫🇷🇫🇷',
-  comment2: 'Vamos',
-  comment3: 'Spain',
-  comment4: '🇧🇷',
-  comment5: '🇧🇷',
-  comment6: '🇧🇷 ',
+  comment1: 'Argentina 🇦🇷',
+  comment2: 'Messi 🇦🇷❤️‍🩹',
+  comment3: 'L10 🐐🇦🇷',
+  comment4: 'Vamoozzz',
+  comment5: 'Brazil 🇧🇷',
+  comment6: '',
   comment7: '🇳🇴🇳🇴',
   comment8: '🇳🇴🇳🇴',
 };
