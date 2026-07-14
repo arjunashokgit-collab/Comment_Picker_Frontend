@@ -229,28 +229,32 @@ const GiveawayDetails = () => {
       return;
     }
 
+    const startTime = Date.now();
+    const duration = 300000; // 5 minutes in ms
+
     const interval = setInterval(() => {
-      setSimulatedProgress((prev) => {
-        const next = prev + Math.floor(Math.random() * 15) + 5;
-        if (next >= 100) {
-          clearInterval(interval);
-          setTimeout(() => setSimulatedLoading(false), 500);
-          return 100;
-        }
-        
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min((elapsed / duration) * 100, 100);
+      const roundedProgress = Math.floor(progress);
+
+      setSimulatedProgress(roundedProgress);
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => setSimulatedLoading(false), 500);
+      } else {
         // Update status text dynamically
-        if (next < 25) {
+        if (progress < 25) {
           setSimulatedStatus('Connecting to Instagram...');
-        } else if (next < 50) {
+        } else if (progress < 50) {
           setSimulatedStatus(`Fetching entries (retrieved ${comments.length} comments)...`);
-        } else if (next < 75) {
+        } else if (progress < 75) {
           setSimulatedStatus('Verifying custom giveaway rules...');
         } else {
           setSimulatedStatus('Confirming qualified usernames...');
         }
-        return next;
-      });
-    }, 150);
+      }
+    }, 100);
 
     return () => clearInterval(interval);
   }, [commentsLoading, simulatedLoading, comments.length]);
@@ -450,11 +454,11 @@ const GiveawayDetails = () => {
       counter += 1;
 
       // Adjust animation speed dynamically
-      if (counter > 50) delay = 120;
-      if (counter > 65) delay = 250;
-      if (counter > 73) delay = 500;
+      if (counter > 100) delay = 120;
+      if (counter > 140) delay = 250;
+      if (counter > 160) delay = 500;
 
-      if (counter >= 80) {
+      if (counter >= 170) {
         // Animation finished! Land on target winner
         setSpinnerName(targetWinner.username);
         
