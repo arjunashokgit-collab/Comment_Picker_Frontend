@@ -450,11 +450,11 @@ const GiveawayDetails = () => {
       counter += 1;
 
       // Adjust animation speed dynamically
-      if (counter > 30) delay = 100;
-      if (counter > 40) delay = 220;
-      if (counter > 45) delay = 450;
+      if (counter > 50) delay = 120;
+      if (counter > 65) delay = 250;
+      if (counter > 73) delay = 500;
 
-      if (counter >= 50) {
+      if (counter >= 80) {
         // Animation finished! Land on target winner
         setSpinnerName(targetWinner.username);
         
@@ -489,7 +489,7 @@ const GiveawayDetails = () => {
               },
             ]);
           }
-        }, 600);
+        }, 650);
       } else {
         setTimeout(spin, delay);
       }
