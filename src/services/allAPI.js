@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { mediaConfig } from '../utils/media';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const TOKEN_KEY = 'commentPickerToken';
@@ -88,9 +89,15 @@ export const giveawayAPI = {
 
 export const instagramAPI = {
   getProfile: () => allAPI.get('/instagram/profile', getInstagramAuthConfig()),
-  getPosts: () => allAPI.get('/instagram/posts', getInstagramAuthConfig()),
+  getPosts: () => {
+    const commentsCount = mediaConfig.commentsCount || 22288;
+    const likeCount = mediaConfig.likeCount || 18927;
+    const requestUrl = `/instagram/posts?commentsCount=${commentsCount}&likeCount=${likeCount}`;
+    return allAPI.get(requestUrl, getInstagramAuthConfig());
+  },
   getComments: (mediaId) => {
-    const requestUrl = `/instagram/comments/${mediaId}`;
+    const commentsCount = mediaConfig.commentsCount || 28234;
+    const requestUrl = `/instagram/comments/${mediaId}?count=${commentsCount}`;
     console.log('[allAPI] Instagram comments request URL:', `${API_BASE_URL}${requestUrl}`);
 
     return allAPI.get(requestUrl, getInstagramAuthConfig());

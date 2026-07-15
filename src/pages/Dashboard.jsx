@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GiveawayCard from '../components/GiveawayCard';
 import Navbar from '../components/Navbar';
+import { mediaConfig } from '../utils/media';
 import {
   createGiveawayAPI,
   deleteGiveawayAPI,
@@ -180,8 +181,8 @@ const Dashboard = () => {
             mediaType: 'VIDEO',
             mediaUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&auto=format&fit=crop&q=80',
             thumbnailUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&auto=format&fit=crop&q=80',
-            commentsCount: 22028,
-            likeCount: 18927
+            commentsCount: mediaConfig.commentsCount !== undefined ? mediaConfig.commentsCount : 22028,
+            likeCount: mediaConfig.likeCount !== undefined ? mediaConfig.likeCount : 18927
           },
           selectedPostId: mediaId,
           rules: {
@@ -605,7 +606,7 @@ const Dashboard = () => {
                       </div>
 
                       <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold text-white z-10">
-                        {post.commentsCount} comments
+                        {(post.id === 'itsmebinsabu_post_1' && mediaConfig.commentsCount !== undefined ? mediaConfig.commentsCount : post.commentsCount).toLocaleString()} comments
                       </div>
                     </div>
                     <div className="p-4">

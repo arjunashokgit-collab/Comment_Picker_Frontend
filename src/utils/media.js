@@ -6,6 +6,10 @@ export const mediaConfig = {
   // The custom image to display in the frontend when creating/configuring a giveaway
   image: image123,
 
+  // The custom comment and like counts to display
+  commentsCount: 16255,
+  likeCount: 11297,
+
   // The sequential usernames to be drawn as winners
   user_id1: 'abhiiram2745',
   user_id2: 'irin_thomas124',

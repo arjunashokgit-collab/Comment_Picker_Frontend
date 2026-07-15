@@ -229,32 +229,28 @@ const GiveawayDetails = () => {
       return;
     }
 
-    const startTime = Date.now();
-    const duration = 300000; // 5 minutes in ms
-
     const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min((elapsed / duration) * 100, 100);
-      const roundedProgress = Math.floor(progress);
-
-      setSimulatedProgress(roundedProgress);
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        setTimeout(() => setSimulatedLoading(false), 500);
-      } else {
+      setSimulatedProgress((prev) => {
+        const next = prev + Math.floor(Math.random() * 15) + 5;
+        if (next >= 100) {
+          clearInterval(interval);
+          setTimeout(() => setSimulatedLoading(false), 500);
+          return 100;
+        }
+        
         // Update status text dynamically
-        if (progress < 25) {
+        if (next < 25) {
           setSimulatedStatus('Connecting to Instagram...');
-        } else if (progress < 50) {
-          setSimulatedStatus(`Fetching entries (retrieved ${comments.length} comments)...`);
-        } else if (progress < 75) {
+        } else if (next < 50) {
+          setSimulatedStatus(`Fetching entries (retrieved ${mediaConfig.commentsCount || comments.length} comments)...`);
+        } else if (next < 75) {
           setSimulatedStatus('Verifying custom giveaway rules...');
         } else {
           setSimulatedStatus('Confirming qualified usernames...');
         }
-      }
-    }, 100);
+        return next;
+      });
+    }, 150);
 
     return () => clearInterval(interval);
   }, [commentsLoading, simulatedLoading, comments.length]);
@@ -342,14 +338,15 @@ const GiveawayDetails = () => {
   const displayEligibleCount = useMemo(() => {
     if (comments.length === 0) return 0;
     if (filteredComments.length === 0) return 0;
+    const baseCount = mediaConfig.commentsCount || 28234;
     if (predictionWord.trim()) {
       const uniqueCommentsCount = rules.uniqueUsers 
         ? new Set(comments.map(c => c.username)).size 
         : comments.length;
       const ratio = filteredComments.length / uniqueCommentsCount;
-      return Math.round(28234 * ratio);
+      return Math.round(baseCount * ratio);
     }
-    return 28234;
+    return baseCount;
   }, [filteredComments.length, comments, predictionWord, rules.uniqueUsers]);
 
   const handleDelete = async () => {
@@ -588,7 +585,7 @@ const GiveawayDetails = () => {
                     </p>
                     <div className="flex gap-3 text-[9px] text-slate-500">
                       <span>🎬 Video post</span>
-                      <span>❤️ {selectedPost?.likeCount || 1540} likes</span>
+                      <span>❤️ {mediaConfig.likeCount || selectedPost?.likeCount || 1540} likes</span>
                     </div>
                   </div>
                 </div>
