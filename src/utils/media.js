@@ -1,32 +1,32 @@
 // This file allows configuring a custom media image and seeded winner sequence.
 // When drawing winners, the users and comments will be picked in this specific order.
-import image123 from "./image10.png"
+import image123 from "./image11.png"
 
 export const mediaConfig = {
   // The custom image to display in the frontend when creating/configuring a giveaway
   image: image123,
 
   // The custom comment and like counts to display
-  commentsCount: 9031,
-  likeCount: 7346,
+  commentsCount: 150655,
+  likeCount: 97562,
 
   // The sequential usernames to be drawn as winners
-  user_id1: '_sam_thomas__',
+  user_id1: 'ivin_k_thangachan',
   user_id2: 'irin_thomas124',
   user_id3: 'amal_shajan__',
   user_id4: 'vichuzzsssee',
-  user_id5: '_ak4sh_r',
+  user_id5: 'annmaria_philip__',
   user_id6: 'rashid___showz',
   user_id7: 'mathew_varghese_jnr',
   user_id8: '_goe_ll_jo_n06',
 
   // The custom comments for each seeded winner
   comment1: 'Argentina 🇦🇷',
-  comment2: 'France 🇫🇷',
+  comment2: 'vamozz 🇦🇷🇦🇷',
   comment3: 'L10 🐐🇦🇷',
   comment4: 'Vamoozzz',
-  comment5: 'Brazil 🇧🇷',
-  comment6: '',
-  comment7: '🇳🇴🇳🇴',
-  comment8: '🇳🇴🇳🇴',
+  comment5: 'Spain 🇪🇸',
+  comment6: 'Yamalllllll',
+  comment7: 'Messi',
+  comment8: 'Cristiano',
 };
