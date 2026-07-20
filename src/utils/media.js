@@ -12,9 +12,9 @@ export const mediaConfig = {
 
   // The sequential usernames to be drawn as winners
   user_id1: 'ivin_k_thangachan',
-  user_id2: 'irin_thomas124',
-  user_id3: 'amal_shajan__',
-  user_id4: 'vichuzzsssee',
+  user_id2: 'athulya_md',
+  user_id3: 'rojikattippara',
+  user_id4: '__.ak__hi_l.__',
   user_id5: 'annmaria_philip__',
   user_id6: 'rashid___showz',
   user_id7: 'mathew_varghese_jnr',
